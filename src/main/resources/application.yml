@@ -1,0 +1,50 @@
+strand:
+  subjects:
+    stem:
+      - Math
+      - Science
+    gas:
+      - English
+      - Filipino
+      - Social Studies
+      - Math
+      - Science
+      - Values Education
+      - MAPEH
+      - Computer
+      - TLE
+    abm:
+      - Math
+      - English
+    humss:
+      - English
+      - Values Education
+      - Computer
+  ncae:
+    stem:
+      - Scientific Ability
+      - Mathematical Ability
+      - Logical Reasoning Ability
+      - Visual Manipulative Skill
+      - STEM
+    gas:
+      - Scientific Ability
+      - Mathematical Ability
+      - Reading Comprehension
+      - Verbal Ability
+      - Clerical Ability
+      - Logical Reasoning Ability
+      - Visual Manipulative Skill
+    abm:
+      - Mathematical Ability
+      - Reading Comprehension
+      - Verbal Ability
+      - ABM
+    humss:
+      - Reading Comprehension
+      - Verbal Ability
+      - Non Verbal Ability
+multiplier:
+  grades: 1
+  ncae: 1
+  awards: 1
