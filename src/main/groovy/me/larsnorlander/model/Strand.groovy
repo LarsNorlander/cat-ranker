@@ -16,12 +16,25 @@ class Strand {
 
     void setProperties(List<String> grades, List<String> ncae, List<String> awards, int index) {
         gradesIntersect = this.requiredSubjects.intersect(grades)
-        ncaeIntersect = this.requiredNcae.intersect(ncae)
-        awardsIntersect = this.requiredSubjects.intersect(awards)
-
         gradesDifference = requiredSubjects - gradesIntersect
-        ncaeDifference = requiredNcae - ncaeIntersect
-        awardsDifference = requiredSubjects - awardsIntersect
+
+        if(ncae){
+            ncaeIntersect = this.requiredNcae.intersect(ncae)
+            ncaeDifference = requiredNcae - ncaeIntersect
+        }
+        else{
+            ncaeIntersect = null
+            ncaeDifference = null
+        }
+
+        if(awards){
+            awardsIntersect = this.requiredSubjects.intersect(awards)
+            awardsDifference = requiredSubjects - awardsIntersect
+        }
+        else{
+            awardsIntersect = null
+            awardsDifference = null
+        }
 
         preferenceIndex = index
     }

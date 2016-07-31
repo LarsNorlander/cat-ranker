@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 @Component
 class Ranker {
 
-    private Map<String, Strand> strands = [:]
+    private Map<String, Strand> strands
 
     private List<String> sGrades, sNcae, sAwards
 
@@ -25,6 +25,7 @@ class Ranker {
     }
 
     void initializeStrands() {
+        strands = [:]
         ['stem', 'gas', 'abm', 'humss'].each {
             strands << [("$it".toString()): new Strand(
                     strandConfig.subjects.get(it),
@@ -37,8 +38,8 @@ class Ranker {
         initializeStrands()
 
         sGrades = getStrengths(data.grades)
-        sNcae = getStrengths(data.ncae)
-        sAwards = getStrengths(data.awards)
+        sNcae = data.ncae ? getStrengths(data.ncae) : null
+        sAwards = data.awards ? getStrengths(data.awards) : null
 
         strands.each { k, v ->
             v.setProperties(sGrades, sNcae, sAwards, data.preference.indexOf(k))
@@ -50,25 +51,39 @@ class Ranker {
                             a.value.preferenceIndex <=> b.value.preferenceIndex
         }
 
-        Map ncaeRank = strands.sort { a, b ->
+        Map ncaeRank = data.ncae ? strands.sort { a, b ->
             b.value.ncaeIntersect.size() <=> a.value.ncaeIntersect.size() ?:
                     a.value.ncaeDifference.size() <=> b.value.ncaeDifference.size() ?:
                             a.value.preferenceIndex <=> b.value.preferenceIndex
-        }
+        } : null
 
-        Map awardsRank = strands.sort { a, b ->
+        Map awardsRank = data.awards ? strands.sort { a, b ->
             b.value.awardsIntersect.size() <=> a.value.awardsIntersect.size() ?:
                     a.value.awardsDifference.size() <=> b.value.awardsDifference.size() ?:
                             a.value.preferenceIndex <=> b.value.preferenceIndex
-        }
+        } : null
 
-        reverseMap(gradesRank).eachWithIndex { k, v, i -> strands["$k"].score += (i + 1) * multiplierConfig.grades }
-        reverseMap(ncaeRank).eachWithIndex { k, v, i -> strands["$k"].score += (i + 1) * multiplierConfig.ncae }
-        reverseMap(awardsRank).eachWithIndex { k, v, i -> strands["$k"].score += (i + 1) * multiplierConfig.awards }
+        reverseMap(gradesRank).eachWithIndex { k, v, i ->
+            strands["$k"].score += (i + 1) * multiplierConfig.grades
+        }
+        if (ncaeRank) reverseMap(ncaeRank).eachWithIndex { k, v, i ->
+            strands["$k"].score += (i + 1) * multiplierConfig.ncae
+        }
+        if (awardsRank) reverseMap(awardsRank).eachWithIndex { k, v, i ->
+            strands["$k"].score += (i + 1) * multiplierConfig.awards
+        }
 
         strands = strands.sort { a, b ->
             b.value.score <=> a.value.score ?: a.value.preferenceIndex <=> b.value.preferenceIndex
         }
+
+        Map responseMap = [strengths: [grades: sGrades], preference: data.preference, ranking:
+        strands]
+
+        if (data.ncae) responseMap.strengths << [ncae : sNcae]
+        if (data.awards) responseMap.strengths << [awards: sAwards]
+
+        return responseMap;
     }
 
     private static List<String> getStrengths(Map<String, Double> data) {

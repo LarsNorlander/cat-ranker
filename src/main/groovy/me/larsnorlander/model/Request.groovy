@@ -14,23 +14,3 @@ class Request {
 
     List<String> preference
 }
-
-
-//{
-//    "subjects":{
-//    "Math":92,
-//    "Science":93
-//},
-//    "ncae":{
-//    "Scientific Ability":92
-//},
-//    "awards":{
-//    "Math":2
-//},
-//    "preference":[
-//        "stem",
-//        "gas",
-//        "abm",
-//        "humms"
-//]
-//}
