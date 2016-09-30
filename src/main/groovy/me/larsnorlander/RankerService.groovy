@@ -5,26 +5,20 @@ import me.larsnorlander.config.StrandConfig
 import me.larsnorlander.model.Request
 import me.larsnorlander.model.Strand
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
-class Ranker {
+@Service
+class RankerService {
 
     private Map<String, Strand> strands
 
     private List<String> strengthGrades, strenghtNcae, strengthAwards
 
     @Autowired
-    StrandConfig strandConfig
-
-    @Autowired
     MultiplierConfig multiplierConfig
 
-    Ranker() {
-
-    }
-
-    void initializeStrands() {
+    @Autowired
+    RankerService(StrandConfig strandConfig) {
         strands = [:]
         ['stem', 'gas', 'abm', 'humss'].each {
             strands << [("$it".toString()): new Strand(strandConfig.subjects.get(it), strandConfig.ncae.get(it))]
@@ -32,8 +26,6 @@ class Ranker {
     }
 
     Map rank(Request data) {
-        initializeStrands()
-
         strengthGrades = getStrengths(data.grades)
         strenghtNcae = data.ncae ? getStrengths(data.ncae) : null
         strengthAwards = data.awards ? getStrengths(data.awards) : null
