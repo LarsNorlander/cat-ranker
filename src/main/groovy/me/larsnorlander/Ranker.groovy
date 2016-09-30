@@ -12,7 +12,7 @@ class Ranker {
 
     private Map<String, Strand> strands
 
-    private List<String> sGrades, sNcae, sAwards
+    private List<String> strengthGrades, strenghtNcae, strengthAwards
 
     @Autowired
     StrandConfig strandConfig
@@ -27,22 +27,19 @@ class Ranker {
     void initializeStrands() {
         strands = [:]
         ['stem', 'gas', 'abm', 'humss'].each {
-            strands << [("$it".toString()): new Strand(
-                    strandConfig.subjects.get(it),
-                    strandConfig.ncae.get(it)
-            )]
+            strands << [("$it".toString()): new Strand(strandConfig.subjects.get(it), strandConfig.ncae.get(it))]
         }
     }
 
     Map rank(Request data) {
         initializeStrands()
 
-        sGrades = getStrengths(data.grades)
-        sNcae = data.ncae ? getStrengths(data.ncae) : null
-        sAwards = data.awards ? getStrengths(data.awards) : null
+        strengthGrades = getStrengths(data.grades)
+        strenghtNcae = data.ncae ? getStrengths(data.ncae) : null
+        strengthAwards = data.awards ? getStrengths(data.awards) : null
 
         strands.each { k, v ->
-            v.setProperties(sGrades, sNcae, sAwards, data.preference.indexOf(k))
+            v.setProperties(strengthGrades, strenghtNcae, strengthAwards, data.preference.indexOf(k))
         }
 
         Map gradesRank = strands.sort { a, b ->
@@ -77,11 +74,11 @@ class Ranker {
             b.value.score <=> a.value.score ?: a.value.preferenceIndex <=> b.value.preferenceIndex
         }
 
-        Map responseMap = [strengths: [grades: sGrades], preference: data.preference, ranking:
+        Map responseMap = [strengths: [grades: strengthGrades], preference: data.preference, ranking:
         strands]
 
-        if (data.ncae) responseMap.strengths << [ncae : sNcae]
-        if (data.awards) responseMap.strengths << [awards: sAwards]
+        if (data.ncae) responseMap.strengths << [ncae : strenghtNcae]
+        if (data.awards) responseMap.strengths << [awards: strengthAwards]
 
         return responseMap;
     }
