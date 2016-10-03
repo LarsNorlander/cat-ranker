@@ -26,6 +26,8 @@ class RankerService {
     }
 
     Map rank(Request data) {
+        strands.each { k, v -> v.score = 0 }
+
         strengthGrades = getStrengths(data.grades)
         strenghtNcae = data.ncae ? getStrengths(data.ncae) : null
         strengthAwards = data.awards ? getStrengths(data.awards) : null
@@ -67,9 +69,9 @@ class RankerService {
         }
 
         Map responseMap = [strengths: [grades: strengthGrades], preference: data.preference, ranking:
-        strands]
+                strands]
 
-        if (data.ncae) responseMap.strengths << [ncae : strenghtNcae]
+        if (data.ncae) responseMap.strengths << [ncae: strenghtNcae]
         if (data.awards) responseMap.strengths << [awards: strengthAwards]
 
         return responseMap;
