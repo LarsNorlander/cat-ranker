@@ -1,7 +1,8 @@
-package me.larsnorlander
+package me.larsnorlander.controller.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import me.larsnorlander.model.Request
+import me.larsnorlander.service.RankerService
+import me.larsnorlander.model.StudentProfile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,20 +17,16 @@ import org.springframework.web.bind.annotation.RestController
  * The controller that exposes the methods for the ranker service.
  */
 @RestController
+@RequestMapping('api/ranker')
 class RankerController {
 
     @Autowired
     RankerService ranker
 
-    @RequestMapping(value = '/', method = RequestMethod.GET)
-    String  index(){
-        return "A landing page is on the way. :3"
-    }
-
     @CrossOrigin
-    @RequestMapping(value = '/', method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<Map> process(@RequestBody String data) {
-        new ResponseEntity<Map>(ranker.rank(new ObjectMapper().readValue(data, Request)), HttpStatus.OK)
+        new ResponseEntity<Map>(ranker.rankStrands(new ObjectMapper().readValue(data, StudentProfile)), HttpStatus.OK)
     }
 
 }

@@ -1,69 +1,51 @@
-package me.larsnorlander.model;
+package me.larsnorlander.model
+
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class Strand {
 
-    private List<String> requiredSubjects, requiredNcae, gradesIntersect, ncaeIntersect,
-            awardsIntersect, gradesDifference, ncaeDifference, awardsDifference
+    private Requirements requirements
+
+    private Category grades
+
+    private Category ncae
+
+    private Category awards
 
     private int preferenceIndex
 
-    int score
+    private int score
 
-    Strand(List<String> subjects, List<String> ncae) {
-        this.requiredSubjects = subjects
-        this.requiredNcae = ncae
+    Strand(Requirements requirements, StudentStrengths strengths, int preferenceIndex) {
+        this.requirements = requirements
+        this.grades = new Category(requirements.subjects, strengths.grades)
+        this.ncae = strengths.ncae ? new Category(requirements.ncae, strengths.ncae) : null
+        this.awards = strengths.awards ? new Category(requirements.subjects, strengths.awards) : null
+        this.preferenceIndex = preferenceIndex
     }
 
-    void setProperties(List<String> grades, List<String> ncae, List<String> awards, int index) {
-        gradesIntersect = this.requiredSubjects.intersect(grades)
-        gradesDifference = requiredSubjects - gradesIntersect
-
-        if(ncae){
-            ncaeIntersect = this.requiredNcae.intersect(ncae)
-            ncaeDifference = requiredNcae - ncaeIntersect
-        }
-        else{
-            ncaeIntersect = null
-            ncaeDifference = null
-        }
-
-        if(awards){
-            awardsIntersect = this.requiredSubjects.intersect(awards)
-            awardsDifference = requiredSubjects - awardsIntersect
-        }
-        else{
-            awardsIntersect = null
-            awardsDifference = null
-        }
-
-        preferenceIndex = index
+    Category getGrades() {
+        return grades
     }
 
+    Category getNcae() {
+        return ncae
+    }
+
+    Category getAwards() {
+        return awards
+    }
+
+    @JsonProperty('preference_index')
     int getPreferenceIndex() {
         return preferenceIndex
     }
 
-    List<String> getGradesIntersect() {
-        return gradesIntersect
+    int getScore() {
+        return score
     }
 
-    List<String> getNcaeIntersect() {
-        return ncaeIntersect
-    }
-
-    List<String> getAwardsIntersect() {
-        return awardsIntersect
-    }
-
-    List<String> getGradesDifference() {
-        return gradesDifference
-    }
-
-    List<String> getNcaeDifference() {
-        return ncaeDifference
-    }
-
-    List<String> getAwardsDifference() {
-        return awardsDifference
+    int setScore(int score){
+        this.score = score
     }
 }
