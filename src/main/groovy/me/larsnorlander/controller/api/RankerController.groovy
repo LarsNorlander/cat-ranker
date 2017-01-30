@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping('api/ranker')
+@SuppressWarnings("GroovyUnusedDeclaration")
 class RankerController {
 
     @Autowired

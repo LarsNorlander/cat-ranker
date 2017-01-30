@@ -11,5 +11,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConfigurationProperties('multiplier')
 class MultiplierConfig {
+
     int grades, ncae, awards
+
 }
