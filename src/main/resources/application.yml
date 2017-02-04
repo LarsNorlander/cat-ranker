@@ -1,49 +1,52 @@
-strand:
-  subjects:
+tracks:
+  academic:
     stem:
-      - Math
-      - Science
+      subjects:
+        - Math
+        - Science
+      ncae:
+        - Scientific Ability
+        - Mathematical Ability
+        - Logical Reasoning Ability
+        - Visual Manipulative Skill
+        - STEM
     gas:
-      - English
-      - Filipino
-      - Social Studies
-      - Math
-      - Science
-      - Values Education
-      - MAPEH
-      - Computer
-      - TLE
+      subjects:
+        - English
+        - Filipino
+        - Social Studies
+        - Math
+        - Science
+        - Values Education
+        - MAPEH
+        - Computer
+        - TLE
+      ncae:
+        - Scientific Ability
+        - Mathematical Ability
+        - Reading Comprehension
+        - Verbal Ability
+        - Clerical Ability
+        - Logical Reasoning Ability
+        - Visual Manipulative Skill
     abm:
-      - Math
-      - English
+      subjects:
+        - Math
+        - English
+      ncae:
+        - Mathematical Ability
+        - Reading Comprehension
+        - Verbal Ability
+        - ABM
     humss:
-      - English
-      - Values Education
-      - Computer
-  ncae:
-    stem:
-      - Scientific Ability
-      - Mathematical Ability
-      - Logical Reasoning Ability
-      - Visual Manipulative Skill
-      - STEM
-    gas:
-      - Scientific Ability
-      - Mathematical Ability
-      - Reading Comprehension
-      - Verbal Ability
-      - Clerical Ability
-      - Logical Reasoning Ability
-      - Visual Manipulative Skill
-    abm:
-      - Mathematical Ability
-      - Reading Comprehension
-      - Verbal Ability
-      - ABM
-    humss:
-      - Reading Comprehension
-      - Verbal Ability
-      - Non Verbal Ability
+      subjects:
+        - English
+        - Values Education
+        - Computer
+      ncae:
+        - Reading Comprehension
+        - Verbal Ability
+        - Non Verbal Ability
 multiplier:
   grades: 1
   ncae: 1

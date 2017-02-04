@@ -1,7 +1,6 @@
 package me.larsnorlander.controller.api
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import me.larsnorlander.service.RankerService
+import me.larsnorlander.service.AcademicRankerService
 import me.larsnorlander.model.StudentProfile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -16,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController
  * Created by larsjosephnorlander on 9/30/16.
  * The controller that exposes the methods for the ranker service.
  */
+@CrossOrigin
 @RestController
 @RequestMapping('api/ranker')
 @SuppressWarnings("GroovyUnusedDeclaration")
 class RankerController {
 
     @Autowired
-    RankerService ranker
+    AcademicRankerService academicRankerService
 
-    @CrossOrigin
-    @RequestMapping(method = RequestMethod.POST)
-    ResponseEntity<Map> process(@RequestBody String data) {
-        new ResponseEntity<Map>(ranker.rankStrands(new ObjectMapper().readValue(data, StudentProfile)), HttpStatus.OK)
+    @RequestMapping(value = 'academic', method = RequestMethod.POST)
+    ResponseEntity<Map> process(@RequestBody StudentProfile studentProfile) {
+        new ResponseEntity(academicRankerService.rankStrands(studentProfile), HttpStatus.OK)
     }
 
 }

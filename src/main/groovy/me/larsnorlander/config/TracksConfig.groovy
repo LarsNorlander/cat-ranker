@@ -4,9 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ConfigurationProperties('strand')
-class StrandConfig {
+@ConfigurationProperties('tracks')
+class TracksConfig {
 
-    Map<String, List<String>> subjects, ncae
+    Map<String, Map<String, List<String>>> academic
 
 }
